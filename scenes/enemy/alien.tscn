@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://alien_scene"]
+
+[ext_resource type="Script" path="res://scripts/alien.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://assets/models/alien_animal.glb" id="2_model"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_alien"]
+radius = 0.5
+height = 2.0
+
+[node name="Alien" type="CharacterBody3D" groups=["enemy"]]
+script = ExtResource("1_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+shape = SubResource("CapsuleShape3D_alien")
+
+[node name="Model" parent="." instance=ExtResource("2_model")]
+transform = Transform3D(-0.1, 0, 0, 0, 0.1, 0, 0, 0, -0.1, 0, 0, 0)

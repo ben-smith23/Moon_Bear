@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://lem_scene"]
+
+[ext_resource type="PackedScene" path="res://assets/models/apollo_lunar_module_decompressed.glb" id="1_lem_model"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lem"]
+size = Vector3(9, 7, 9)
+
+[node name="LEM" type="StaticBody3D"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+
+[node name="Model" type="Node3D" parent="."]
+
+[node name="Sketchfab_Scene" parent="Model" instance=ExtResource("1_lem_model")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
+shape = SubResource("BoxShape3D_lem")

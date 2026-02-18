@@ -1,0 +1,22 @@
+# Godot-specific ignores
+.godot/
+*.import
+export_presets.cfg
+
+# Mono-specific ignores
+.mono/
+*.csproj
+*.sln
+
+# Export builds (binary artifacts — don't track in git)
+exports/
+
+# Original texture backups
+assets/models/originals_backup/
+
+# Godot web export files (if exported to project root)
+*.wasm
+*.pck
+*.audio.worklet.js
+*.audio.position.worklet.js
+

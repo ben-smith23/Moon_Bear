@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://bxxhwbjjeoacb"]
+
+[ext_resource type="Script" uid="uid://ckekcm13bmbbv" path="res://scripts/game_manager.gd" id="1_game_manager"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1_player"]
+[ext_resource type="Texture2D" uid="uid://xuwbacyhn8ga" path="res://assets/textures/starfield.jpg" id="2_starfield"]
+[ext_resource type="Script" uid="uid://bcuylm1gnhyly" path="res://scripts/terrain_loader.gd" id="3_terrain_loader"]
+
+[ext_resource type="Script" uid="uid://s014jto5b1xm" path="res://scripts/space_station.gd" id="5_station_script"]
+[ext_resource type="PackedScene" path="res://scenes/environment/lem.tscn" id="6_lem"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_1"]
+panorama = ExtResource("2_starfield")
+
+[sub_resource type="Sky" id="Sky_1"]
+sky_material = SubResource("PanoramaSkyMaterial_1")
+
+[sub_resource type="Environment" id="Environment_1"]
+background_mode = 2
+sky = SubResource("Sky_1")
+ambient_light_source = 2
+ambient_light_color = Color(0.12, 0.12, 0.15, 1)
+ambient_light_energy = 0.4
+glow_enabled = true
+glow_intensity = 0.6
+glow_bloom = 0.4
+glow_hdr_threshold = 1.2
+
+[sub_resource type="SphereMesh" id="SphereMesh_sun"]
+radius = 40.0
+height = 80.0
+
+[sub_resource type="StandardMaterial3D" id="Material_sun"]
+shading_mode = 0
+albedo_color = Color(1, 1, 0.95, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_win"]
+height = 10.0
+radius = 6.0
+
+[node name="Main" type="Node3D" unique_id=383720084]
+script = ExtResource("1_game_manager")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=823016864]
+environment = SubResource("Environment_1")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=816465070]
+transform = Transform3D(0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, -0.5, 0.5, 0, 20, 0)
+light_color = Color(1, 0.98, 0.92, 1)
+light_energy = 2.0
+shadow_enabled = true
+shadow_bias = 0.05
+directional_shadow_max_distance = 300.0
+
+[node name="Sun" type="MeshInstance3D" parent="." unique_id=1757547708]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -800, 1000, 800)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_sun")
+surface_material_override/0 = SubResource("Material_sun")
+
+[node name="SpaceStation" type="Node3D" parent="." unique_id=1729643991]
+script = ExtResource("5_station_script")
+
+
+
+[node name="MoonTerrain" type="Node3D" parent="." unique_id=498486990]
+script = ExtResource("3_terrain_loader")
+
+[node name="ApolloLunarModule" parent="." unique_id=1973452792 instance=ExtResource("6_lem")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 11)
+
+[node name="WinArea" type="Area3D" parent="ApolloLunarModule" unique_id=441978296]
+unique_name_in_owner = true
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ApolloLunarModule/WinArea" unique_id=55247131]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+shape = SubResource("CylinderShape3D_win")
+
+[node name="Player" parent="." unique_id=1518473996 instance=ExtResource("1_player")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)

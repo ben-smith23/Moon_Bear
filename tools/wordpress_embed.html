@@ -1,0 +1,167 @@
+<!--
+  MOON BEAR — WordPress Embed Snippet
+  ====================================
+  Paste this into a WordPress "Custom HTML" block.
+
+  BEFORE USING: Replace YOUR_GAME_URL below with the actual URL
+  where your exported game files are hosted.
+  Example: https://yourdomain.com/games/moon-bear/index.html
+-->
+
+<!-- Moon Bear Game Embed -->
+<div id="moon-bear-container" style="
+  position: relative;
+  width: 100%;
+  max-width: 1280px;
+  margin: 2rem auto;
+  background: #0a0a0f;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+">
+  <!-- Aspect Ratio Wrapper (16:9) -->
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+
+    <!-- Loading Overlay -->
+    <div id="moon-bear-overlay" style="
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0f 100%);
+      cursor: pointer;
+    " onclick="startMoonBear()">
+      <div style="
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        text-align: center;
+        color: #e0e0e0;
+      ">
+        <div style="font-size: 3rem; margin-bottom: 0.5rem;">🌙🐻</div>
+        <h2 style="
+          margin: 0 0 0.5rem 0;
+          font-size: 1.8rem;
+          font-weight: 700;
+          background: linear-gradient(135deg, #c0c0c0, #ffffff);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        ">MOON BEAR</h2>
+        <p style="margin: 0 0 1.5rem 0; color: #888; font-size: 0.9rem;">
+          A lunar survival mission
+        </p>
+        <button style="
+          background: linear-gradient(135deg, #4a4a8a, #6a6aaa);
+          color: white;
+          border: none;
+          padding: 14px 40px;
+          font-size: 1.1rem;
+          font-weight: 600;
+          border-radius: 8px;
+          cursor: pointer;
+          letter-spacing: 1px;
+          transition: transform 0.2s, box-shadow 0.2s;
+          box-shadow: 0 4px 16px rgba(74, 74, 138, 0.4);
+        " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+          ▶ PLAY GAME
+        </button>
+        <p style="margin: 1rem 0 0 0; color: #555; font-size: 0.75rem;">
+          Best experienced on desktop · WASD to move · Space to jump
+        </p>
+      </div>
+    </div>
+
+    <!-- Game iFrame (loads on click) -->
+    <iframe
+      id="moon-bear-frame"
+      style="
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+      "
+      allowfullscreen
+      allow="autoplay; fullscreen; pointer-lock"
+    ></iframe>
+  </div>
+
+  <!-- Controls Bar -->
+  <div style="
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    background: #12121a;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-size: 0.8rem;
+    color: #666;
+  ">
+    <span>Moon Bear · Made with Godot</span>
+    <button onclick="toggleFullscreen()" style="
+      background: #2a2a3a;
+      color: #aaa;
+      border: 1px solid #3a3a4a;
+      padding: 4px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: background 0.2s;
+    " onmouseover="this.style.background='#3a3a5a'" onmouseout="this.style.background='#2a2a3a'">
+      ⛶ Fullscreen
+    </button>
+  </div>
+</div>
+
+<!-- Mobile Warning (shown only on small screens) -->
+<div id="moon-bear-mobile-notice" style="
+  display: none;
+  max-width: 1280px;
+  margin: 0.5rem auto;
+  padding: 12px 16px;
+  background: #1a1a2e;
+  border: 1px solid #2a2a4a;
+  border-radius: 8px;
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  font-size: 0.85rem;
+  color: #888;
+">
+  📱 This game works best on a desktop computer with a keyboard.
+</div>
+
+<script>
+  // ── Replace this URL with your hosted game location ──
+  const MOON_BEAR_GAME_URL = "YOUR_GAME_URL/index.html";
+
+  function startMoonBear() {
+    const overlay = document.getElementById("moon-bear-overlay");
+    const frame = document.getElementById("moon-bear-frame");
+    overlay.innerHTML = '<div style="color:#888;font-family:sans-serif;font-size:1rem;">Loading Moon Bear…</div>';
+    frame.src = MOON_BEAR_GAME_URL;
+    frame.onload = function () {
+      overlay.style.display = "none";
+    };
+    // Fallback: hide overlay after 10s even if onload doesn't fire
+    setTimeout(function () {
+      overlay.style.display = "none";
+    }, 10000);
+  }
+
+  function toggleFullscreen() {
+    const container = document.getElementById("moon-bear-container");
+    if (!document.fullscreenElement) {
+      container.requestFullscreen().catch(function () {});
+    } else {
+      document.exitFullscreen();
+    }
+  }
+
+  // Show mobile notice on small screens
+  if (window.innerWidth < 768) {
+    var notice = document.getElementById("moon-bear-mobile-notice");
+    if (notice) notice.style.display = "block";
+  }
+</script>
